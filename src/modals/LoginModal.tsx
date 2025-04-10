@@ -54,21 +54,21 @@ const LoginModal = ({ open, onClose }: Props) => {
     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-2 flex-wrap">
       <Button
         onClick={() => handleSocialLogin("phone")}
-        className="flex-1 min-w-[150px] border border-gray-300 bg-white text-black hover:bg-gray-100"
+        className="flex-1 min-w-[150px] border border-gray-300 bg-white text-black hover:bg-gray-100 cursor-pointer"
       >
         <FaPhoneAlt className="mr-2" />
         Số điện thoại
       </Button>
       <Button
         onClick={() => handleSocialLogin("google")}
-        className="flex-1 min-w-[150px] border border-gray-300 bg-white text-black hover:bg-gray-100"
+        className="flex-1 min-w-[150px] border border-gray-300 bg-white text-black hover:bg-gray-100 cursor-pointer"
       >
         <FcGoogle className="mr-2" />
         Tiếp tục với Google
       </Button>
       <Button
         onClick={() => handleSocialLogin("facebook")}
-        className="flex-1 min-w-[150px] border border-gray-300 bg-white text-black hover:bg-gray-100"
+        className="flex-1 min-w-[150px] border border-gray-300 bg-white text-black hover:bg-gray-100 cursor-pointer"
       >
         <FaFacebook className="mr-2 text-blue-600" />
         Tiếp tục với Facebook
@@ -97,14 +97,14 @@ const LoginModal = ({ open, onClose }: Props) => {
             <Input placeholder="Email hoặc số điện thoại" required />
             <Button
               type="submit"
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-red-600 hover:bg-red-700 text-white cursor-pointer"
             >
               GỬI LIÊN KẾT ĐẶT LẠI MẬT KHẨU
             </Button>
             <div className="text-center text-sm">
               <button
                 type="button"
-                className="text-blue-600 hover:underline mt-2"
+                className="text-blue-600 hover:underline mt-2 cursor-pointer"
                 onClick={() => setForgotPassword(false)}
               >
                 Quay lại đăng nhập
@@ -119,7 +119,7 @@ const LoginModal = ({ open, onClose }: Props) => {
             <Input placeholder="Mật khẩu" type="password" required />
             <Button
               type="submit"
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-red-600 hover:bg-red-700 text-white cursor-pointer"
             >
               TẠO TÀI KHOẢN
             </Button>
@@ -153,7 +153,7 @@ const LoginModal = ({ open, onClose }: Props) => {
 
             <Button
               type="submit"
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-red-600 hover:bg-red-700 text-white cursor-pointer"
             >
               ĐĂNG NHẬP
             </Button>
@@ -172,7 +172,7 @@ const LoginModal = ({ open, onClose }: Props) => {
                   <span>Bạn đã có tài khoản? </span>
                   <button
                     type="button"
-                    className="text-blue-600 hover:underline"
+                    className="text-blue-600 hover:underline cursor-pointer"
                     onClick={() => setIsRegister(false)}
                   >
                     Đăng nhập
@@ -183,7 +183,7 @@ const LoginModal = ({ open, onClose }: Props) => {
                   <span>Bạn chưa có tài khoản? </span>
                   <button
                     type="button"
-                    className="text-blue-600 hover:underline"
+                    className="text-blue-600 hover:underline cursor-pointer"
                     onClick={() => setIsRegister(true)}
                   >
                     Tạo tài khoản

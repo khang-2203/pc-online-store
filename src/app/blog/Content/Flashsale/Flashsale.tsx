@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -8,6 +8,12 @@ import { Navigation } from "swiper/modules";
 import Countdown from "react-countdown";
 
 const FlashSale = () => {
+  const [endTime, setEndTime] = useState<number | null>(null);
+
+  useEffect(() => {
+    setEndTime(Date.now() + 3600000);
+  }, []);
+
   const [products] = useState([
     {
       id: 1,
@@ -15,7 +21,7 @@ const FlashSale = () => {
       oldPrice: "29.990.000đ",
       newPrice: "x.x90.000",
       sold: 1,
-      img: "/monitor1.jpg",
+      img: "/adcard-1.webp",
     },
     {
       id: 2,
@@ -23,7 +29,7 @@ const FlashSale = () => {
       oldPrice: "20.990.000đ",
       newPrice: "x.x90.000",
       sold: 15,
-      img: "/monitor2.jpg",
+      img: "/adcard-2.webp",
     },
     {
       id: 3,
@@ -31,7 +37,7 @@ const FlashSale = () => {
       oldPrice: "7.990.000đ",
       newPrice: "x.x90.000",
       sold: 4,
-      img: "/monitor3.jpg",
+      img: "/adcard-3.webp",
     },
     {
       id: 4,
@@ -39,7 +45,7 @@ const FlashSale = () => {
       oldPrice: "7.990.000đ",
       newPrice: "x.x90.000",
       sold: 16,
-      img: "/monitor4.jpg",
+      img: "/adcard-4.webp",
     },
     {
       id: 5,
@@ -47,7 +53,7 @@ const FlashSale = () => {
       oldPrice: "9.490.000đ",
       newPrice: "x.x90.000",
       sold: 16,
-      img: "/monitor5.jpg",
+      img: "/adcard-5.webp",
     },
     {
       id: 6,
@@ -55,18 +61,18 @@ const FlashSale = () => {
       oldPrice: "5.990.000đ",
       newPrice: "x.x90.000",
       sold: 29,
-      img: "/monitor6.jpg",
+      img: "/adcard-6.webp",
     },
   ]);
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-xl max-w-6xl mx-auto shadow-lg ">
+    <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-xl max-w-6xl mx-auto shadow-lg">
       <div className="flex items-center justify-between text-white font-bold text-xl mb-4">
         <div className="flex items-center gap-2">
           <span className="text-2xl">⚡</span> FLASH SALE 10H MỖI NGÀY
         </div>
         <div className="bg-white text-blue-600 px-3 py-1 rounded-lg text-sm font-semibold">
-          <Countdown date={Date.now() + 3600000} />
+          {endTime ? <Countdown date={endTime} /> : "00:00:00"}
         </div>
       </div>
 

@@ -1,5 +1,3 @@
-// src/app/products/configs/mockData.ts
-
 export const mockProduct = {
   id: 1,
   title: "Laptop Gaming ASUS ROG",

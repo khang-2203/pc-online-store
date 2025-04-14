@@ -1,15 +1,29 @@
-import React from "react";
+"use client";
 
-const ShowroomPage = () => {
+import ShowroomSidebar from "@/app/showroom/components/Sidebar";
+import ShowroomList from "./components/ShowroomList";
+import { showroomData } from "@/app/showroom/data/showroomData";
+import { useState } from "react";
+
+export default function ShowroomPage() {
+  const [selectedCity, setSelectedCity] = useState("Tất cả");
+
+  const allCities = ["Tất cả", ...showroomData.map((s) => s.city)];
+  const filteredData =
+    selectedCity === "Tất cả"
+      ? showroomData
+      : showroomData.filter((s) => s.city === selectedCity);
+
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Hệ thống Showroom</h1>
-      <p className="text-lg">
-        Đây là trang giới thiệu về các showroom trên toàn quốc. Bạn có thể ghé
-        thăm địa chỉ gần bạn nhất để trải nghiệm sản phẩm trực tiếp.
-      </p>
+    <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+      <ShowroomSidebar
+        cities={allCities}
+        selectedCity={selectedCity}
+        onSelectCity={setSelectedCity}
+      />
+      <div className="flex-1">
+        <ShowroomList data={filteredData} />
+      </div>
     </div>
   );
-};
-
-export default ShowroomPage;
+}

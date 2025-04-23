@@ -1,4 +1,3 @@
-// app/showroom/components/showroomData.ts
 export const showroomData = [
   {
     city: "Hà Nội",

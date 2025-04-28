@@ -21,7 +21,7 @@ export default function ShowroomSidebar({
           <li key={city}>
             <button
               onClick={() => onSelectCity(city)}
-              className={`w-full text-left px-3 py-2 rounded transition ${
+              className={`w-full text-left px-3 py-2 rounded transition cursor-pointer ${
                 selectedCity === city
                   ? "bg-red-500 text-white"
                   : "hover:bg-gray-100"

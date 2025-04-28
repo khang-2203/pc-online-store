@@ -24,7 +24,7 @@ const Header = () => {
         </Button>
       </Link>
 
-      <Link href="/info/tech-news" passHref>
+      <Link href="/news" passHref>
         <Button
           variant="ghost"
           className="text-black text-sm hover:text-red-500 transition cursor-pointer border-r rounded-none px-4 hover:bg-*"

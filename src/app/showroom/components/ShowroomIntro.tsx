@@ -16,7 +16,15 @@ export default function ShowroomIntro() {
           <h2 className="text-2xl text-black ">
             Địa điểm trải nghiệm và mua sắm thiết bị công nghệ cao cấp
           </h2>
-          <Button className="bg-red-500 hover:bg-red-600 text-xl py-4 px-20 rounded-lg cursor-pointer">
+          <Button
+            className="bg-red-500 hover:bg-red-600 text-xl py-4 px-20 rounded-lg cursor-pointer"
+            onClick={() => {
+              const element = document.getElementById("showroom-list");
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+          >
             Xem ngay
           </Button>
         </div>

@@ -12,7 +12,7 @@ const LoginButton = () => {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="bg-red-700 text-white m-5 text-base px-3 py-1.5 rounded-md flex items-center hover:bg-red-800 transition cursor-pointer"
+        className="bg-red-700 text-white m-5 text-base px-3 py-1.5 rounded-md hidden md:flex items-center hover:bg-red-800 transition cursor-pointer "
       >
         <User className="mr-2" size={24} />
         <span>Đăng nhập</span>

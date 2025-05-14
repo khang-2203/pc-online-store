@@ -1,85 +1,83 @@
+// app/cart/CartPage.tsx
 "use client";
 
-import { useCart } from "@/context/CartContext";
-import Image from "next/image";
+import { useCartStore } from "@/app/stores/useCartStore";
 import { Button } from "@/components/ui/button";
-import { Trash2, Plus, Minus } from "lucide-react";
 
 const CartPage = () => {
-  const {
-    cartItems,
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromCart,
-    getTotalPrice,
-  } = useCart();
+  // Lấy giỏ hàng từ store
+  const { items, totalPrice, addItem, removeItem, updateQuantity, clearCart } =
+    useCartStore();
 
+  // Thêm sản phẩm vào giỏ hàng
+  const handleAddToCart = () => {
+    const newItem = {
+      id: Date.now(), // ID sản phẩm, có thể thay đổi theo logic thực tế
+      title: "Laptop ASUS ROG",
+      price: 30000000,
+      quantity: 1,
+      image: "/zone-1.jpg",
+    };
+    addItem(newItem);
+  };
+
+  // Hiển thị các sản phẩm trong giỏ hàng
   return (
-    <div className="p-6 ">
-      <h1 className="text-2xl font-bold mb-4">Giỏ hàng của bạn</h1>
+    <div className="max-w-6xl mx-auto p-6 space-y-8">
+      <h1 className="text-2xl font-bold">Giỏ hàng của bạn</h1>
 
-      {cartItems.length === 0 ? (
-        <p>Giỏ hàng trống. Về trang chủ mua hàng đi bạn ơi!</p>
-      ) : (
-        <>
-          <div className="space-y-4">
-            {cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center border-b py-4 gap-4"
-              >
-                <Image
+      <div className="space-y-4">
+        {items.length > 0 ? (
+          items.map((item) => (
+            <div
+              key={item.id}
+              className="flex items-center justify-between border-b pb-4"
+            >
+              <div className="flex items-center space-x-4">
+                <img
                   src={item.image}
-                  alt={item.name}
-                  width={80}
-                  height={80}
-                  className="rounded-md"
+                  alt={item.title}
+                  className="w-20 h-20 object-cover"
                 />
-                <div className="flex-1">
-                  <h2 className="text-lg font-semibold">{item.name}</h2>
-                  <p className="text-sm text-gray-600">
-                    {item.price.toLocaleString()}đ
-                  </p>
+                <div>
+                  <h2>{item.title}</h2>
+                  <p>{item.price} VND</p>
+                  <input
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) =>
+                      updateQuantity(item.id, parseInt(e.target.value))
+                    }
+                    min="1"
+                    className="border p-1"
+                  />
                 </div>
-
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    onClick={() => decreaseQuantity(item.id)}
-                  >
-                    <Minus />
-                  </Button>
-                  <span className="text-sm">{item.quantity}</span>
-                  <Button
-                    variant="ghost"
-                    onClick={() => increaseQuantity(item.id)}
-                  >
-                    <Plus />
-                  </Button>
-                </div>
-
-                <div className="text-right w-24">
-                  {(item.price * item.quantity).toLocaleString()}đ
-                </div>
-
-                <Button variant="ghost" onClick={() => removeFromCart(item.id)}>
-                  <Trash2 />
-                </Button>
               </div>
-            ))}
-          </div>
+              <Button
+                onClick={() => removeItem(item.id)}
+                className="bg-red-500 text-white"
+              >
+                Xóa
+              </Button>
+            </div>
+          ))
+        ) : (
+          <p>Giỏ hàng của bạn đang trống.</p>
+        )}
+      </div>
 
-          <div className="mt-6 text-right text-lg font-bold">
-            Tổng cộng: {getTotalPrice().toLocaleString()}đ
-          </div>
+      <div className="flex justify-between">
+        <span className="text-xl font-semibold">
+          Tổng tiền: {totalPrice} VND
+        </span>
+        <Button onClick={clearCart} className="bg-gray-500 text-white">
+          Xóa giỏ hàng
+        </Button>
+      </div>
 
-          <div className="mt-4 text-right">
-            <Button className="bg-red-600 hover:bg-red-700 text-white">
-              Tiến hành thanh toán
-            </Button>
-          </div>
-        </>
-      )}
+      <Button onClick={handleAddToCart} className="mt-6 bg-red-600 text-white">
+        Thêm sản phẩm vào giỏ hàng
+      </Button>
     </div>
   );
 };

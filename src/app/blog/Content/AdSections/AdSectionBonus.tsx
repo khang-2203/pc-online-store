@@ -47,7 +47,7 @@ const ads = [
 
 const AdSectionBonus = () => {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className=" lg:grid-cols-3 gap-4 hidden sm:grid">
       {ads.map((ad, index) => (
         <AdCard key={index} {...ad} />
       ))}

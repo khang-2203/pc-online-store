@@ -1,11 +1,29 @@
 "use client";
 
 import { mockProduct } from "@/app/products/mockData";
+import { useCartStore } from "@/app/stores/useCartStore"; // Import hook Zustand
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export default function ProductDetailPage() {
   const product = mockProduct;
+
+  // Lấy phương thức addItem từ useCartStore
+  const { addItem } = useCartStore();
+
+  // Hàm thêm sản phẩm vào giỏ hàng
+  const handleAddToCart = () => {
+    const productToAdd = {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      quantity: 1, // Số lượng mặc định là 1 khi thêm vào giỏ
+      image: product.image,
+    };
+
+    // Gọi addItem để thêm sản phẩm vào giỏ hàng
+    addItem(productToAdd);
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
@@ -39,12 +57,16 @@ export default function ProductDetailPage() {
               </span>
             )}
           </div>
-          <Button className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition">
-            Mua Ngay
+          <Button
+            className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition"
+            onClick={handleAddToCart} // Thêm vào giỏ hàng
+          >
+            Thêm vào giỏ hàng
           </Button>
         </div>
       </div>
 
+      {/* Thông tin sản phẩm, Sản phẩm đã xem, Đánh giá */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <section className="bg-white rounded shadow p-6">
           <h2 className="text-xl font-semibold mb-6">Thông tin sản phẩm</h2>
@@ -106,7 +128,6 @@ export default function ProductDetailPage() {
 
       <div className="bg-white rounded shadow p-6">
         <h2 className="text-xl font-semibold mb-4">Đánh giá sản phẩm</h2>
-
         <div className="space-y-4">
           {[
             {

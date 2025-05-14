@@ -82,7 +82,7 @@ const FlashSale = () => {
           navigation
           loop={true}
           spaceBetween={15}
-          slidesPerView={2}
+          slidesPerView={4}
           breakpoints={{
             768: { slidesPerView: 3 },
             1024: { slidesPerView: 4 },

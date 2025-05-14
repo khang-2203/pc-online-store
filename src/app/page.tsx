@@ -4,6 +4,7 @@ import AdSectionBonus from "./blog/Content/AdSections/AdSectionBonus";
 import FlashSale from "@/app/blog/Content/Flashsale/Flashsale";
 import ProductsPage from "@/app/products/page";
 import type { Metadata } from "next";
+import ChatBox from "./chatbox/ChatBox";
 
 export const metadata: Metadata = {
   title:
@@ -35,6 +36,7 @@ export default function Home() {
       <div className="container mx-auto w-[1280px] m-4 col-span-3 flex flex-col justify-center items-center gap-4">
         <ProductsPage />
       </div>
+      <ChatBox />
     </div>
   );
 }

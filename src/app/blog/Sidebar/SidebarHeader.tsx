@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   ShoppingCart,
@@ -18,12 +18,17 @@ import LoginButton from "@/components/auth/LoginButton";
 
 const SidebarHeader = () => {
   const [isCategoryActive, setIsCategoryActive] = useState(false);
-  const { getTotalQuantity } = useCart();
+  const { cartItems, getTotalQuantity } = useCart(); // Dùng cartItems trực tiếp từ context
   const quantity = getTotalQuantity();
+
+  // Đảm bảo component re-render khi cartItems thay đổi
+  useEffect(() => {
+    console.log("Giỏ hàng đã thay đổi:", cartItems);
+  }, [cartItems]);
 
   return (
     <div className="sticky top-0 left-0 w-full z-50">
-      <header className=" fixed top-0 left-0 w-full bg-red-600 shadow-md h-14 flex items-center px-4">
+      <header className="fixed top-0 left-0 w-full bg-red-600 shadow-md h-14 flex items-center px-4">
         <Button
           asChild
           variant="ghost"
@@ -36,7 +41,7 @@ const SidebarHeader = () => {
         </Button>
 
         <Button
-          className="ml-2 bg-red-700 text-white text-base px-3 py-1.5 rounded flex items-center hover:bg-red-800 transition cursor-pointer"
+          className="ml-2 bg-red-700 text-white text-base px-3 py-1.5 rounded items-center hover:bg-red-800 transition cursor-pointer hidden md:flex"
           onClick={() => setIsCategoryActive(true)}
         >
           <Menu style={{ width: "24px", height: "24px" }} />
@@ -52,7 +57,7 @@ const SidebarHeader = () => {
           />
         </div>
 
-        <div className="text-white text-xs mx-1 flex items-center space-x-2">
+        <div className="text-white text-xs mx-1 items-center space-x-2 hidden md:flex">
           <Headset style={{ width: "24px", height: "24px" }} />
           <div>
             <span className="font-bold block">Hotline</span>
@@ -62,7 +67,7 @@ const SidebarHeader = () => {
 
         <Button
           variant="ghost"
-          className="text-white text-xs mx-1 flex items-center cursor-pointer hover:bg-* hover:text-*"
+          className="text-white text-xs mx-1 items-center cursor-pointer hover:bg-* hover:text-* hidden md:flex"
         >
           <Link href={"/showroom"} className="flex items-center">
             <MapPin style={{ width: "24px", height: "24px" }} />
@@ -71,7 +76,7 @@ const SidebarHeader = () => {
         </Button>
         <Button
           variant="ghost"
-          className="text-white text-xs mx-1 flex items-center cursor-pointer hover:bg-* hover:text-*"
+          className="text-white text-xs mx-1 hidden md:flex items-center cursor-pointer hover:bg-* hover:text-*"
         >
           <ClipboardList style={{ width: "24px", height: "24px" }} />
           Tra Cứu Đơn hàng
@@ -79,7 +84,7 @@ const SidebarHeader = () => {
         <Button
           asChild
           variant="ghost"
-          className="relative text-white text-xs mx-1 cursor-pointer hover:bg-white/10 hover:text-white"
+          className="relative text-white text-xs mx-1 cursor-pointer hover:bg-white/10 hover:text-white "
         >
           <Link href="/cart" className="flex items-center">
             <ShoppingCart style={{ width: "24px", height: "24px" }} />

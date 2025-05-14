@@ -13,7 +13,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className="bg-white shadow-md p-6 h-6 flex flex-row justify-center items-center pt-20 z-50">
+    <header className="bg-white shadow-md p-6 h-6 hidden md:flex flex-row justify-center items-center pt-20 z-50 ">
       <Link href="/info/build-pc" passHref>
         <Button
           variant="ghost"

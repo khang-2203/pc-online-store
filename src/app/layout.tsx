@@ -9,6 +9,7 @@ import { CartProvider } from "@/context/CartContext";
 import Sidebar from "@/app/blog/Sidebar/Sidebar";
 import SidebarHeader from "./blog/Sidebar/SidebarHeader";
 import Footer from "./blog/Footer";
+import ChatBox from "./chatbox/ChatBox";
 
 export default function RootLayout({
   children,
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className="bg-gray-100 text-gray-900">
         <QueryClientProvider client={queryClient}>
           <CartProvider>
+            <ChatBox />
             <div>
               {!isShowroomPage && <SidebarHeader />}
               <div>

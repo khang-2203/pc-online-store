@@ -1,4 +1,15 @@
-export const mockProduct = {
+export type Product = {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  oldPrice?: number;
+  discount?: string;
+  image: string;
+  brand: string;
+};
+
+export const mockProduct: Product = {
   id: 1,
   title: "Laptop Gaming ASUS ROG",
   description: "Hiệu năng cao, thiết kế mạnh mẽ dành cho game thủ.",

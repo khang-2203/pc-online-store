@@ -34,8 +34,8 @@ export default function RootLayout({
                 {children}
               </div>
             </div>
+            <Footer />
           </CartProvider>
-          <Footer />
         </QueryClientProvider>
       </body>
     </html>

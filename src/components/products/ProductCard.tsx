@@ -10,22 +10,23 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
+  const imageUrl = product.image?.trim() ? product.image : "https://via.placeholder.com/300x200?text=No+Image";
 
   return (
     <div className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-all duration-300">
       <div className="relative w-full h-52 mb-3">
-        <Image
-          src={product.image}
-          alt={product.title}
-          layout="fill"
-          objectFit="cover"
-          className="rounded-md"
-        />
-      </div>
+      <Image
+       src={imageUrl}
+       alt={product.title}
+       layout="fill"
+       objectFit="cover"
+       className="rounded-md"
+       />
 
+      </div>
       <h2 className="text-lg font-bold truncate">{product.title}</h2>
       <p className="text-gray-500 text-sm truncate">{product.description}</p>
-
+      <h3 className="font-semibold text-lg text-center">{product.name}</h3>
       <div className="flex items-center space-x-2 mt-2">
         <p className="text-red-500 font-bold">{product.price} VND</p>
         {product.oldPrice && (

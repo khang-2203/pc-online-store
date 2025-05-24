@@ -17,17 +17,24 @@ import { useState, useEffect } from "react";
 type Props = {
   open: boolean;
   onClose: () => void;
+  onLoginSuccess: (email: string) => void;
 };
 
-const LoginModal = ({ open, onClose }: Props) => {
+const LoginModal = ({ open, onClose, onLoginSuccess }: Props) => {
   const [isRegister, setIsRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (open) {
       setIsRegister(false);
       setForgotPassword(false);
+      setEmailInput("");
+      setPasswordInput("");
+      setError("");
     }
   }, [open]);
 
@@ -35,19 +42,38 @@ const LoginModal = ({ open, onClose }: Props) => {
     console.log(isRegister ? "Register with" : "Login with", provider);
   };
 
-  const handleRegisterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Submit đăng ký");
-  };
+  // Hardcoded users
+  const users = [
+    { email: "admin", password: "admin123", role: "Admin" },
+    { email: "L3stkaio@gmail.com", password: "khang123", role: "Khách" },
+  ];
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submit đăng nhập");
+    setError("");
+
+    const user = users.find(
+      (u) =>
+        u.email.toLowerCase() === emailInput.toLowerCase() &&
+        u.password === passwordInput
+    );
+
+    if (user) {
+      onLoginSuccess(user.email);
+      onClose();
+    } else {
+      setError("Email hoặc mật khẩu không đúng");
+    }
+  };
+
+  const handleRegisterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("Chức năng đăng ký chưa được triển khai");
   };
 
   const handleForgotPasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Gửi yêu cầu đặt lại mật khẩu");
+    alert("Chức năng quên mật khẩu chưa được triển khai");
   };
 
   const SocialLoginButtons = () => (
@@ -84,8 +110,8 @@ const LoginModal = ({ open, onClose }: Props) => {
             {forgotPassword
               ? "Đặt lại mật khẩu"
               : isRegister
-                ? "Tạo tài khoản"
-                : "Đăng nhập vào tài khoản"}
+              ? "Tạo tài khoản"
+              : "Đăng nhập vào tài khoản"}
           </DialogTitle>
         </DialogHeader>
 
@@ -127,7 +153,12 @@ const LoginModal = ({ open, onClose }: Props) => {
           </form>
         ) : (
           <form onSubmit={handleLoginSubmit} className="flex flex-col gap-3">
-            <Input placeholder="Email hoặc số điện thoại" required />
+            <Input
+              placeholder="Email hoặc số điện thoại"
+              required
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+            />
 
             <div className="relative">
               <Input
@@ -135,6 +166,8 @@ const LoginModal = ({ open, onClose }: Props) => {
                 type={showPassword ? "text" : "password"}
                 required
                 className="pr-10"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
               />
               <div
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
@@ -143,6 +176,10 @@ const LoginModal = ({ open, onClose }: Props) => {
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </div>
             </div>
+
+            {error && (
+              <div className="text-red-600 text-sm font-medium">{error}</div>
+            )}
 
             <div
               className="text-right text-sm text-blue-600 hover:underline cursor-pointer"

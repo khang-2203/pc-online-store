@@ -6,10 +6,8 @@ import ProductList from "@/components/products/ProductList";
 import { Product } from "@/lib/types";
 
 async function fetchProducts(): Promise<Product[]> {
-  const { data } = await axios.get(
-    "https://jsonplaceholder.typicode.com/posts"
-  );
-  return data;
+  const res = await axios.get("http://localhost:5000/api/products");
+  return res.data;
 }
 
 export default function ProductsPage() {
@@ -19,28 +17,11 @@ export default function ProductsPage() {
     error,
   } = useQuery({
     queryKey: ["products"],
-    queryFn: async () => {
-      const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
-
-      const formattedData: Product[] = res.data
-        .slice(0, 20)
-        .map((post: any) => ({
-          id: post.id,
-          title: post.title,
-          body: post.body,
-          name: post.title,
-          description: post.body,
-          price: Math.floor(Math.random() * 1000000),
-          image: "https://via.placeholder.com/150",
-        }));
-
-      console.log("Fetched products:", formattedData);
-      return formattedData;
-    },
+    queryFn: fetchProducts,
   });
 
   if (isLoading) return <p>Đang tải sản phẩm...</p>;
-  if (error) return <p>Đã có lỗi xảy ra!</p>;
+  if (error) return <p>Đã có lỗi xảy ra khi tải sản phẩm.</p>;
 
   return (
     <div className="container mx-auto">

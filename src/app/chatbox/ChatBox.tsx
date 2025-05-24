@@ -12,15 +12,47 @@ interface Message {
 
 export default function ChatBox() {
   const [isOpen, setIsOpen] = useState(false);
-  const [name, setName] = useState("Khách hàng");
+  const [name] = useState("Khách hàng");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
 
+  const botReply = (userMsg: string) => {
+    const msg = userMsg.toLowerCase();
+    if (msg.includes("giá") || msg.includes("xin chào")) {
+      return "Xin chào quý khách, quý khách cần hỗ trợ gì ạ ?";
+    }
+    if (msg.includes("giá") || msg.includes("sản phầm này giá bao nhiêu")) {
+      return "Sản phẩm của chúng tôi có giá rất cạnh tranh!";
+    }
+    if (msg.includes("giá") || msg.includes("bên bạn sản phẩm này còn không")) {
+      return "Ở các chi nhánh Hà Nội , hiện tại mặt hàng này vẫn còn!";
+    }
+    if (msg.includes("ship") || msg.includes("giao hàng")) {
+      return "Chúng tôi hỗ trợ giao hàng toàn quốc, phí ship tùy khu vực.";
+    }
+    if (msg.includes("bảo hành")) {
+      return "Sản phẩm được bảo hành chính hãng 12 tháng.";
+    }
+    if (msg.includes("giờ làm việc") || msg.includes("mấy giờ")) {
+      return "Chúng tôi làm việc từ 8h sáng đến 6h tối, từ thứ 2 đến thứ 7.";
+    }
+
+    return "Mình chưa hiểu câu hỏi, bạn vui lòng nói lại nhé!";
+  };
+
   const handleSend = () => {
     if (message.trim()) {
-      setMessages([...messages, { name, message, timestamp: new Date() }]);
+      const userMessage = { name, message, timestamp: new Date() };
+      setMessages((prev) => [...prev, userMessage]);
       setMessage("");
-      alert("Tin nhắn đã được gửi (mock)!");
+
+      setTimeout(() => {
+        const reply = botReply(userMessage.message);
+        setMessages((prev) => [
+          ...prev,
+          { name: "Bot", message: reply, timestamp: new Date() },
+        ]);
+      }, 1000);
     }
   };
 
@@ -45,19 +77,24 @@ export default function ChatBox() {
 
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white">
             {messages.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center">
-                Chưa có tin nhắn
-              </p>
+              <p className="text-sm text-gray-500 text-center">Chưa có tin nhắn</p>
             ) : (
               messages.map((msg, index) => (
-                <div key={index} className="bg-gray-100 rounded-lg p-3 text-sm">
+                <div
+                  key={index}
+                  className={`rounded-lg p-3 text-sm ${
+                    msg.name === "Bot" ? "bg-blue-100 text-blue-900" : "bg-gray-100 text-gray-700"
+                  }`}
+                >
                   <div className="flex justify-between items-baseline">
-                    <span className="font-medium text-red-500">{msg.name}</span>
+                    <span className={`font-medium ${msg.name === "Bot" ? "text-blue-700" : "text-red-500"}`}>
+                      {msg.name}
+                    </span>
                     <span className="text-xs text-gray-500">
                       {msg.timestamp.toLocaleTimeString()}
                     </span>
                   </div>
-                  <p className="text-gray-700 mt-1">{msg.message}</p>
+                  <p className="mt-1">{msg.message}</p>
                 </div>
               ))
             )}
@@ -69,6 +106,14 @@ export default function ChatBox() {
               placeholder="Nhập nội dung..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  if (message.trim()) {
+                    handleSend();
+                  }
+                }
+              }}
               className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
             <Button

@@ -1,27 +1,51 @@
-// app/cart/CartPage.tsx
 "use client";
 
+import { useState } from "react";
 import { useCartStore } from "@/app/stores/useCartStore";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const CartPage = () => {
-  // Lấy giỏ hàng từ store
-  const { items, totalPrice, addItem, removeItem, updateQuantity, clearCart } =
-    useCartStore();
+  const {
+    items,
+    totalPrice,
+    addItem,
+    removeItem,
+    updateQuantity,
+    clearCart,
+  } = useCartStore();
 
-  // Thêm sản phẩm vào giỏ hàng
+  const [open, setOpen] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState("");
+
   const handleAddToCart = () => {
     const newItem = {
-      id: Date.now(), // ID sản phẩm, có thể thay đổi theo logic thực tế
+      id: Date.now(),
       title: "Laptop ASUS ROG",
       price: 30000000,
       quantity: 1,
-      image: "/zone-1.jpg",
+      image: "/Laptop ASUS ROG.jpg",
     };
     addItem(newItem);
   };
 
-  // Hiển thị các sản phẩm trong giỏ hàng
+  const handleConfirmPayment = () => {
+    if (!selectedMethod) {
+      alert("Vui lòng chọn phương thức thanh toán.");
+      return;
+    }
+
+    console.log("Phương thức thanh toán được chọn:", selectedMethod);
+    setOpen(false);
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       <h1 className="text-2xl font-bold">Giỏ hàng của bạn</h1>
@@ -66,18 +90,108 @@ const CartPage = () => {
         )}
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <span className="text-xl font-semibold">
           Tổng tiền: {totalPrice} VND
         </span>
-        <Button onClick={clearCart} className="bg-gray-500 text-white">
+        <Button onClick={clearCart} className="bg-red-500 text-white">
           Xóa giỏ hàng
         </Button>
       </div>
 
-      <Button onClick={handleAddToCart} className="mt-6 bg-red-600 text-white">
-        Thêm sản phẩm vào giỏ hàng
-      </Button>
+      <div className="flex justify-between mt-6">
+        <Button onClick={handleAddToCart} className="bg-red-600 text-white">
+          Thêm sản phẩm vào giỏ hàng
+        </Button>
+
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button className="bg-red-600 text-white">Thanh Toán</Button>
+          </DialogTrigger>
+          <DialogContent className="bg-white backdrop-blur-md rounded-lg shadow-lg">
+            <DialogHeader>
+              <DialogTitle>Phương thức thanh toán</DialogTitle>
+              <DialogDescription className="space-y-4 mt-4">
+                <div className="flex flex-col space-y-2">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="momo"
+                      checked={selectedMethod === "momo"}
+                      onChange={(e) => setSelectedMethod(e.target.value)}
+                      className="accent-red-600"
+                    />
+                    <span>MoMo</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="visa"
+                      checked={selectedMethod === "visa"}
+                      onChange={(e) => setSelectedMethod(e.target.value)}
+                      className="accent-red-600"
+                    />
+                    <span>Visa</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="jcb"
+                      checked={selectedMethod === "jcb"}
+                      onChange={(e) => setSelectedMethod(e.target.value)}
+                      className="accent-red-600"
+                    />
+                    <span>JCB</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="cod"
+                      checked={selectedMethod === "cod"}
+                      onChange={(e) => setSelectedMethod(e.target.value)}
+                      className="accent-red-600"
+                    />
+                    <span>Thanh toán khi nhận hàng</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="mastercard"
+                      checked={selectedMethod === "mastercard"}
+                      onChange={(e) => setSelectedMethod(e.target.value)}
+                      className="accent-red-600"
+                    />
+                    <span>MasterCard</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="installment"
+                      checked={selectedMethod === "installment"}
+                      onChange={(e) => setSelectedMethod(e.target.value)}
+                      className="accent-red-600"
+                    />
+                    <span>Trả góp 0%</span>
+                  </label>
+                </div>
+
+                <Button
+                  className="bg-red-600 text-white w-full mt-4"
+                  onClick={handleConfirmPayment}
+                >
+                  Xác nhận thanh toán
+                </Button>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };

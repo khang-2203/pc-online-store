@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-// Định nghĩa trạng thái của giỏ hàng
 interface CartItem {
   id: number;
   title: string;
@@ -10,15 +9,15 @@ interface CartItem {
 }
 
 interface CartStore {
-  items: CartItem[]; // Danh sách sản phẩm trong giỏ hàng
-  totalPrice: number; // Tổng giá trị giỏ hàng
-  addItem: (item: CartItem) => void; // Thêm sản phẩm vào giỏ hàng
-  removeItem: (id: number) => void; // Xóa sản phẩm khỏi giỏ hàng
-  updateQuantity: (id: number, quantity: number) => void; // Cập nhật số lượng sản phẩm
-  clearCart: () => void; // Xóa hết giỏ hàng
+  items: CartItem[]; 
+  totalPrice: number; 
+  addItem: (item: CartItem) => void; 
+  removeItem: (id: number) => void; 
+  updateQuantity: (id: number, quantity: number) => void; 
+  clearCart: () => void; 
 }
 
-// Khởi tạo store với zustand
+
 export const useCartStore = create<CartStore>((set) => ({
   items: [],
   totalPrice: 0,

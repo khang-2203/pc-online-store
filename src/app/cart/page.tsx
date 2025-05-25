@@ -26,14 +26,32 @@ const CartPage = () => {
   const [selectedMethod, setSelectedMethod] = useState("");
 
   const handleAddToCart = () => {
-    const newItem = {
+    const newItems = [
+    {
       id: Date.now(),
       title: "Laptop ASUS ROG",
-      price: 30000000,
+      price: 30000000 ,
       quantity: 1,
       image: "/Laptop ASUS ROG.jpg",
-    };
-    addItem(newItem);
+    },
+    {
+      id: Date.now() + 1,
+      title: "Chuột Logitech splight.png",
+      price: 2500000,
+      quantity: 1,
+      image: "/logitech splight.png",
+    },
+    {
+      id: Date.now() + 2,
+      title: "Bàn phím cơ Akko 3087",
+      price: 1320000,
+      quantity: 1,
+      image: "/Bàn phím cơ Akko 3087.png",
+    },
+  ];
+
+
+    newItems.forEach((item) => addItem(item));
   };
 
   const handleConfirmPayment = () => {

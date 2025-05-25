@@ -23,21 +23,22 @@ export default function RootLayout({
 
   return (
     <html lang="vi">
-      <body className="bg-gray-100 text-gray-900">
-        <QueryClientProvider client={queryClient}>
-          <CartProvider>
-            <ChatBox />
-            <div>
-              {!isShowroomPage && <SidebarHeader />}
-              <div>
-                {!isShowroomPage && <Sidebar />}
-                {children}
-              </div>
-            </div>
-            <Footer />
-          </CartProvider>
-        </QueryClientProvider>
-      </body>
+      <body className="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+  <QueryClientProvider client={queryClient}>
+    <CartProvider>
+      <ChatBox />
+      <div className="flex-grow">
+        {!isShowroomPage && <SidebarHeader />}
+        <div>
+          {!isShowroomPage && <Sidebar />}
+          {children}
+        </div>
+      </div>
+      <Footer />
+    </CartProvider>
+  </QueryClientProvider>
+</body>
+
     </html>
   );
 }

@@ -17,8 +17,10 @@ function ProductCategory({ title, products = [] }: ProductListProps) {
   const router = useRouter();
   const slug = title.toLowerCase().replace(/\s+/g, "-");
 
+  if (products.length === 0) return null;
+
   return (
-    <div className="w-full mt-8 bg-white p-4 rounded-lg shadow-md ">
+    <div className="w-full mt-8 bg-white p-4 rounded-lg shadow-md">
       <h2
         className="text-2xl font-bold mb-4 cursor-pointer hover:text-red-500 transition"
         onClick={() => router.push(`/categories/${slug}`)}
@@ -36,7 +38,7 @@ function ProductCategory({ title, products = [] }: ProductListProps) {
           1024: { slidesPerView: 3 },
           1280: { slidesPerView: 4 },
         }}
-        className="w-full  "
+        className="w-full"
       >
         <style jsx>{`
           :global(.swiper-button-prev),
@@ -54,18 +56,43 @@ function ProductCategory({ title, products = [] }: ProductListProps) {
   );
 }
 
-export default function ProductList({
-  products = [],
-}: {
-  products: Product[];
-}) {
+export default function ProductList({ products = [] }: { products: Product[] }) {
+  const pcProducts: Product[] = [];
+  const laptopProducts: Product[] = [];
+  const mouseProducts: Product[] = [];
+  const monitorProducts: Product[] = [];
+  const otherProducts: Product[] = [];
+
+  const assignedProductIds = new Set<number>();
+
+  for (const product of products) {
+    const name = product.name.toLowerCase();
+
+    if (name.includes("pc") && !assignedProductIds.has(product.id)) {
+      pcProducts.push(product);
+      assignedProductIds.add(product.id);
+    } else if (name.includes("laptop") && !assignedProductIds.has(product.id)) {
+      laptopProducts.push(product);
+      assignedProductIds.add(product.id);
+    } else if (name.includes("chuột") && !assignedProductIds.has(product.id)) {
+      mouseProducts.push(product);
+      assignedProductIds.add(product.id);
+    } else if (name.includes("màn hình") && !assignedProductIds.has(product.id)) {
+      monitorProducts.push(product);
+      assignedProductIds.add(product.id);
+    } else if (!assignedProductIds.has(product.id)) {
+      otherProducts.push(product);
+      assignedProductIds.add(product.id);
+    }
+  }
+
   return (
     <div className="w-full">
-      <ProductCategory title="PC Bán Chạy" products={products} />
-      <ProductCategory title="Laptop Gaming Bán Chạy " products={products} />
-      <ProductCategory title="Laptop Văn Phòng Bán Chạy" products={products} />
-      <ProductCategory title="Chuột Bán Chạy" products={products} />
-      <ProductCategory title="Bàn Phím Bán Chạy" products={products} />
+      <ProductCategory title="PC Bán Chạy" products={pcProducts} />
+      <ProductCategory title="Laptop Gaming" products={laptopProducts} />
+      <ProductCategory title="Chuột Gaming" products={mouseProducts} />
+      <ProductCategory title="Màn Hình" products={monitorProducts} />
+      <ProductCategory title="Tai Nghe" products={otherProducts} />
     </div>
   );
 }

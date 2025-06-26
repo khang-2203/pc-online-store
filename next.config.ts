@@ -10,6 +10,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "example.com",
       },
+      {
+        protocol: "https",
+        hostname: "product.hstatic.net",
+      },
+      {
+        protocol: "http", // thêm cái này để support localhost
+        hostname: "localhost",
+        port: "5000", 
+      },
     ],
   },
 };

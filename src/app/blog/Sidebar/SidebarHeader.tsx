@@ -15,16 +15,23 @@ import Sidebar from "../../category/CategoryMenu";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import LoginButton from "@/components/auth/LoginButton";
+import { useRouter } from "next/navigation";
 
 const SidebarHeader = () => {
   const [isCategoryActive, setIsCategoryActive] = useState(false);
-  const { cartItems, getTotalQuantity } = useCart(); // Dùng cartItems trực tiếp từ context
+  const { cartItems, getTotalQuantity } = useCart();
   const quantity = getTotalQuantity();
+  const [keyword, setKeyword] = useState("");
+  const router = useRouter();
 
-  // Đảm bảo component re-render khi cartItems thay đổi
   useEffect(() => {
     console.log("Giỏ hàng đã thay đổi:", cartItems);
   }, [cartItems]);
+
+  const handleSearch = () => {
+    if (!keyword.trim()) return;
+    router.push(`/search?q=${encodeURIComponent(keyword)}`);
+  };
 
   return (
     <div className="sticky top-0 left-0 w-full z-50">
@@ -49,9 +56,15 @@ const SidebarHeader = () => {
         </Button>
 
         <div className="flex-grow mx-2 bg-white flex items-center px-3 py-1.5 rounded-md">
-          <Search className="w-5 h-5 text-gray-500 cursor-pointer  " />
+          <Search
+            className="w-5 h-5 text-gray-500 cursor-pointer"
+            onClick={handleSearch}
+          />
           <input
             type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             placeholder="Bạn cần tìm gì?"
             className="w-full ml-2 text-sm outline-none"
           />

@@ -20,25 +20,25 @@ export default function RootLayout({
   const pathname = usePathname();
 
   const isShowroomPage = pathname.startsWith("/showroom");
+  const isAdminPage = pathname.startsWith("/admin");
 
   return (
     <html lang="vi">
       <body className="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
-  <QueryClientProvider client={queryClient}>
-    <CartProvider>
-      <ChatBox />
-      <div className="flex-grow">
-        {!isShowroomPage && <SidebarHeader />}
-        <div>
-          {!isShowroomPage && <Sidebar />}
-          {children}
-        </div>
-      </div>
-      <Footer />
-    </CartProvider>
-  </QueryClientProvider>
-</body>
-
+        <QueryClientProvider client={queryClient}>
+          <CartProvider>
+            <ChatBox />
+            <div className="flex-grow">
+              {!isAdminPage && <SidebarHeader />}
+              <div>
+                {!isShowroomPage && !isAdminPage && <Sidebar />}
+                {children}
+              </div>
+            </div>
+            {!isAdminPage && <Footer />}
+          </CartProvider>
+        </QueryClientProvider>
+      </body>
     </html>
   );
 }

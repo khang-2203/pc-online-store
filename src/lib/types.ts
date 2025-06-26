@@ -9,6 +9,7 @@ export interface Product {
   name: string;
   oldPrice?: number;
   discount?: string;
+  image_url?: string;
 }
 
 // SubMenu type dùng cho danh mục có chứa nhiều sản phẩm
